@@ -1,41 +1,53 @@
-$(function (){
+$(document).ready(() => {
 
-/*
-    let $username = $('username');
-    let $password = $('password');
-    SDK.User.loadUser();
+    const $username = $('username');
+    const $password = $('password');
 
-    */
 
     $('#loginBtn').click(() => {
         const username = $('#inputUsername').val();
         const password = $('#inputPassword').val();
-        SDK.User.login(username, password, (err, data) => {
-            if (err) {
-                console.log('Error')
-            }
-            else
-                window.location.href('index.html')
-        });
 
-    })
-    $('#signupBtn').click(() => {
-        const username = $('#inputUsername').val();
-        const password = $('#inputPassword').val();
-        SDK.User.signup(username, password, (err, data) => {
-            if (err) {
-                console.log('Error')
-            }
-            else
-                console.log('User created')
-        })
-    })
+        if (!username || !password) {
+            alert('Please enter valid login data')
+        } else {
+            SDK.User.login(username, password, (e, data) => {
+                if (e && e.xhr.status == 401) {
+
+                    $(".margin-bottom").addClass('Unvalid username/password combination');
+                }
+                else if (e) {
+
+                    console.log('Error')
+                }
+                else{
+                    SDK.loadUser((e, data)) => {
+                        if (e && e.xhr.status == 401) {
+
+                            console.log('Unvalid username/password combination')
+                        } else {
+                            console.log(data)
+                            window.location.href('index.html')
+                        }
+
+                    }
+                }
+
+            });
+
+        }
+        });
 
     $('#logoutBtn').click(() => {
 
         SDK.User.logout();
-    })
+    });
+
+    $('#signupBtn').click(() => {
+        window.location.href = 'create.html';
+    });
 
 
 
 })
+}
