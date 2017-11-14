@@ -113,13 +113,14 @@ const SDK = {
             return SDK.Storage.load('Quiz')
 
         },
-        create: (data, callback) => {
+        create: (title, description, courseId, callback) => {
             SDK.request({
                 method: 'POST',
                 url: 'api/quiz',
-                data: data,
-                headers: {
-                    authorization: SDK.Storage('id')
+                data: {
+                    title: title,
+                    description: description,
+                    courseId: courseId
                 }
             }, callback);
         },

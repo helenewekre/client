@@ -1,23 +1,29 @@
-nav {
-    margin-bottom: 25px;
-    margin-top: 20px;
-}
-
 dd {
     margin-bottom: 10px;
 }
 
-.book-container .panel-body {
-    min-height: 242px;
-}
-.book-container img {
-    height: 120px;
-}
-.book-container .price-label {
-    font-size: 1.4em;
-    font-weight: bold;
+.courseBtn {
+    cursor: pointer;
 }
 
-.book-container .price-label p {
-    margin: 4px 0 0 0;
+.courseDropdown {
+    position: relative;
+    display: inline-block;
 }
+
+.courseDropdownSelection {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+.courseDropdownSelection a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.show {display:block;}
