@@ -2,17 +2,16 @@ $(document).ready(() => {
 
     $('#createBtn').click(() => {
 
-        const username = $('#inputUsername').val();
-        const password = $('#inputPassword').val();
-        const passwordCheck  = $('#inputPasswordCheck');
+        const username = $('#username').val();
+        const password = $('#password').val();
+        const passwordCheck  = $('#passwordCheck').val();
 
-        if (!username || !password || !passwordCheck ) {
+        if(!username || !password || !passwordCheck){
             alert('Please enter valid login data')
         } else {
             if (password === passwordCheck) {
-
                 SDK.User.signup(username, password, (e, data) =>  {
-                    if (e && e.xhr.status === 401) {
+                    if (e && e.xhr.status === 400) {
                         $(".margin-bottom").addClass('Error');
                     }
                     else if (e) {
@@ -22,17 +21,11 @@ $(document).ready(() => {
                         window.location.href = 'index.html';
                     }
                 });
-
             } else {
-
                 alert('Passwords do not match! Please reenter. ')
                 $('#inputPassword').val('');
                 $('#inputPasswordCheck').val('');
-
             }
-
         }
-
     });
-
 });

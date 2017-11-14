@@ -17,23 +17,22 @@ const SDK = {
             header: header,
             contentType: 'application/json',
             dataType: 'json',
-            data: JSON.stringify(options.data),
+            data: JSON.stringify(SDK.encrypt(JSON.stringify(options.data))),
             success: (data, status, xhr) => {
-            callback(null, data, status, xhr);
+                callback(null, SDK.decrypt(data), status, xhr);
             },
             error: (xhr, status, errorThrown) => {
-            callback({xhr: xhr, status: status, error: errorThrown});
+                callback({xhr: xhr, status: status, error: errorThrown});
             }
         });
     },
     User: {
-
         loadUser: (callback) => {
             SDK.request({
-                url: '/user/myuser',
-                method: 'GET',
+                method: "GET",
+                url: "api/user/myuser",
                 headers: {
-                    authorization: SDK.Storage.load('Tkn'),
+                    authorization: SDK.Storage.load('Token'),
                 },
 
             }, (e, user) => {
@@ -44,12 +43,11 @@ const SDK = {
             });
         },
         currentUser: () => {
-            SDK.Storage.load('User');
-            return 'User';
+          return SDK.Storage.load('User');
         },
         login: (username, password, callback) => {
             SDK.request({
-                data:{
+                data: {
                     username: username,
                     password: password
                 },
@@ -58,38 +56,34 @@ const SDK = {
             }, (e, data) => {
                 if (e)
                     return callback(e);
-               // SDK.Storage.persist('tkn', data);
-                //HUSK Å ENDRE TIL TOKEN I SERVERSIDE???
-
-                SDK.Storage.persist('user_id', data.userId);
-                SDK.Storage.persist('type', data.userType);
-                SDK.Storage.persist('username', data.username);
-
+                SDK.Storage.persist('Token', data);
+               // SDK.Storage.persist('Username', data.username)
+               // SDK.Storage.persist('Type', data.type)
                 callback(null, data);
             });
         },
-        signup: (user, callback) => {
+        signup: (username, password, callback) => {
             SDK.request({
-                type: 'POST',
-                url: 'api/user/signup',
-                data: user,
-                    //{
-
-                    //username: username,
-                   // password: password
-                //},
-                success: (newUser) => {
-                    alert('New user created: ' + user );
-
+                data: {
+                    username: username,
+                    password: password
                 },
-                error: () => {
-                    alert('Error creating user');
-                }
-            }, callback);
+                method: "POST",
+                url: "api/user/signup"
+            }, (err, data) => {
+                if (err) return callback(err);
+
+                callback(null, data);
+            });
+
         },
+
         logout: () => {
-            SDK.Storage.remove('user_id');
-            window.location.href = '/html/index.html'
+            window.location.href = '/index.html'
+
+            SDK.Storage.remove('User');
+            SDK.Storage.remove('Token');
+
         }
     },
     Course: {
@@ -100,23 +94,27 @@ const SDK = {
                 callback
             });
         },
-        currentCourse: () => {
+        currentCourse: (callback) => {
             return SDK.Storage.load('Course')
         }
     },
     Quiz: {
         loadAll: (callback) => {
-            SDK.request( {
-                method: 'GET',
-                url: 'api/quiz/' + SDK.Course.currentCourse('course_id'),
-                callback
-            });
+            SDK.request({
+                    method: 'GET',
+                    url: 'api/quiz/' + SDK.Course.currentCourse('course_id'),
+                    //url: 'api/quiz/' + SDK.Course.currentCourse().id,
+                    headers: {
+                        authorization: SDK.Storage.load('Token')
+                    }
+                }, callback);
         },
         currentQuiz: () => {
             return SDK.Storage.load('Quiz')
+
         },
         create: (data, callback) => {
-            SDK.request( {
+            SDK.request({
                 method: 'POST',
                 url: 'api/quiz',
                 data: data,
@@ -125,8 +123,10 @@ const SDK = {
                 }
             }, callback);
         },
-        loadQuestions: () => {},
-        loadOptions: () => {}
+        loadQuestions: () => {
+        },
+        loadOptions: () => {
+        }
     },
     Storage: {
         prefix: 'ExamQuiz',
@@ -135,7 +135,7 @@ const SDK = {
         },
         load: (key) => {
             const value
-                = SDK.localStorage.getItem(SDK.Storage.prefix + key);
+                = window.localStorage.getItem(SDK.Storage.prefix + key);
             try {
                 return JSON.parse(value);
             } catch (e) {

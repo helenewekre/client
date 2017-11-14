@@ -1,12 +1,11 @@
 $(document).ready(() => {
 
-    const $username = $('username');
-    const $password = $('password');
-
-
     $('#loginBtn').click(() => {
-        const username = $('#inputUsername').val();
-        const password = $('#inputPassword').val();
+        const username = $('#username').val();
+        const password = $('#password').val();
+
+        console.log(username)
+        console.log(password)
 
         if (!username || !password) {
             alert('Please enter valid login data')
@@ -17,37 +16,27 @@ $(document).ready(() => {
                     $(".margin-bottom").addClass('Unvalid username/password combination');
                 }
                 else if (e) {
-
                     console.log('Error')
                 }
-                else{
-                    SDK.loadUser((e, data)) => {
+                else {
+                    SDK.User.loadUser((e, data) => {
                         if (e && e.xhr.status == 401) {
-
                             console.log('Unvalid username/password combination')
                         } else {
                             console.log(data)
-                            window.location.href('index.html')
+                            //SDK.User.currentUser();
+                            window.location.href = "profile.html";
                         }
 
-                    }
+                    });
                 }
-
             });
-
         }
-        });
-
-    $('#logoutBtn').click(() => {
-
-        SDK.User.logout();
     });
 
     $('#signupBtn').click(() => {
-        window.location.href = 'create.html';
+        window.location.href = "create.html";
     });
 
 
-
-})
-}
+});
