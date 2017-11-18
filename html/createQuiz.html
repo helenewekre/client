@@ -29,6 +29,35 @@
     <p>Title: <input type="text" placeholder="Chapter 1" id="title"></p>
     <p> Description:  <textarea rows="3" placeholder="Multiple choice quiz from lecture 1. " id="description"></textarea> </p>
     <button id="createBtn">Create quiz!</button>
+    <div class="modal" id="questionModal">
+        <div class="modal-content">
+
+            <div class="questionsAndOptions">
+                <label>Question</label>
+                <textarea type="textarea" class="questionBox" id="question" placeholder="Question"></textarea>
+            </div>
+
+            <div class="questionsAndOptions">
+                <label>Correct option</label>
+                <input type="text" class="optionBox" id="correct" placeholder="Correct option">
+            </div>
+            <div class="questionsAndOptions">
+                <label>Wrong option 1</label>
+                <input type="text" class="optionBox" id="wrong1" placeholder="Wrong option 1">
+            </div>
+            <div class="questionsAndOptions">
+                <label>Wrong option 2</label>
+                <input type="text" class="optionBox" id="wrong2" placeholder="Wrong option 2">
+            </div>
+            <div class="questionsAndOptions">
+                <label>Wrong option 3</label>
+                <input type="text" class="optionBox" id="wrong3" placeholder="Wrong option 3">
+
+            <button type="button" id="addBtn">Add question!</button>
+
+
+        </div>
+    </div>
 
 
 

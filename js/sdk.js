@@ -70,8 +70,8 @@ const SDK = {
                 },
                 method: "POST",
                 url: "api/user/signup"
-            }, (err, data) => {
-                if (err) return callback(err);
+            }, (e, data) => {
+                if (e) return callback(e);
 
                 callback(null, data);
             });
@@ -113,18 +113,52 @@ const SDK = {
             return SDK.Storage.load('Quiz')
 
         },
-        create: (title, description, courseId, callback) => {
+        create: (title, description, courseId, questions, createdBy, callback) => {
             SDK.request({
                 method: 'POST',
                 url: 'api/quiz',
                 data: {
                     title: title,
                     description: description,
-                    courseId: courseId
+                    courseId: courseId,
+                    questions: questions,
+                    createdBy: createdBy
                 }
-            }, callback);
+            }, (e, data) => {
+                    if (e) return callback(e);
+
+                    callback(null, data);
+            });
+        },
+        createQuestion: (question, quizId, callback) => {
+            SDK.request({
+                method: 'POST',
+                url: 'api/question/' + quizId,
+                data: {
+                    question: question,
+                    quizId: quizId
+                }
+                }, (e, data) => {
+                    if(e) return callback(e);
+                    callback(null, data);
+                });
+        },
+        createOptions: (option, questionId, status, callback) => {
+            SDK.request({
+                method:'POST',
+                url: 'api/option/' + questionId,
+                data: {
+                    option: option,
+                    questionId: questionId,
+                    status: status
+                }
+                }, (e, data) => {
+                    if(e) return callback(e);
+                    callback(null, data);
+                });
         },
         loadQuestions: () => {
+
         },
         loadOptions: () => {
         }
