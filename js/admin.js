@@ -1,14 +1,16 @@
 $(document).ready(() => {
+    const currentUser = SDK.User.currentUser();
+
 
     $('#createBtn').click(() => {
 
         const title = $('#title').val();
         const description  = $('#description').val();
-        const course = SDK.Course.currentCourse();
+        const course = $('#course').val();
         const questions = $('#questions').val();
         //cont questions = 15;
-        const createdby = $('#createdby').val();
-       // const courses = SDK.Storage.load('Courses');
+        const createdby = currentUser.username;
+
 
 
         if(!course || !title || !description){
@@ -151,5 +153,5 @@ $(document).ready(() => {
 
 
 
-    
+
 });

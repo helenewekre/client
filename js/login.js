@@ -25,7 +25,16 @@ $(document).ready(() => {
                         } else {
                             console.log(data)
                             //SDK.User.currentUser();
-                            window.location.href = "profile.html";
+                            var user = JSON.parse(data);
+                            var currentUser = SDK.User.currentUser();
+
+                            if(currentUser.type === 2) {
+                                window.location.href = "profile.html";
+                            }else if (currentUser.type === 1) {
+                                window.location.href = "createQuiz.html";
+
+                            }
+
                         }
 
                     });
