@@ -10,6 +10,8 @@ $(document).ready(() => {
             alert('Please enter valid login data')
         } else {
             if (password === passwordCheck) {
+               // SDK.encrypt(username, password);
+
                 SDK.User.signup(username, password, (e, data) =>  {
                     if (e && e.xhr.status === 400) {
                         $(".margin-bottom").addClass('Error');

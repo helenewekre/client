@@ -9,7 +9,15 @@ $(document).ready(()=>{
 
     $('#logoutBtn').click(() => {
         SDK.User.logout();
-    })
+    });
+    $('#courseBtn').click(()=> {
+
+        //SDK.Course.loadAll();
+        window.location.href = "course.html";
+        }
+
+
+    )
     }
 
 )

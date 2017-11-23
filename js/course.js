@@ -1,7 +1,12 @@
 $(document).ready(()=> {
 
-        const $courseList = $("#course-list");
-        SDK.Course.loadAll((e, courses) => {
+        SDK.Course.loadCourses((e, course) => {
+            if (e) throw e;
+
+            const $courseList = $("#course-list");
+
+            var courses = JSON.parse(course);
+
 
                 courses.forEach((course)=> {
                         const courseHtml = `
@@ -10,15 +15,15 @@ $(document).ready(()=> {
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">${course.title}</h3>
-            </div>
+                </div>
             <div class="col-lg-8">
                 <dl>
                 <dt>Course:</dt>
-                <dd>${course.course}</dd>
+                <dd>${course}</dd>
                 </dl>
             </div>
             <div class="panel-footer">
-               <button class="selectBtn" data-course-id=${course.id}>Select course</button>
+               <button id=selectBtn" data-course-id=${course.id}>Select course</button>
             </div>
             </div>
             </div>
@@ -26,7 +31,7 @@ $(document).ready(()=> {
                     $courseList.append(courseHtml);
                     }
                 );
-                $('.selectBtn').click(function () {
+                $('#selectBtn').click(function () {
                     const courseId = $ (this).data('course-id');
                     const course = courses.find((course)=> course.id === courseId);
                     console.log(course);

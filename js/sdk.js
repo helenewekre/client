@@ -3,23 +3,18 @@ const SDK = {
     request: (options, callback) => {
 
 
-        let header = {};
-
-        if (options.header) {
-            Object.keys(options.header).forEach((i) => {
-                header[i] = (typeof options.header(i) === 'object') ? JSON.stringify(options.header[i]) : options.header[i];
-            });
-        }
-
         $.ajax({
             url: SDK.serverURL + options.url,
             method: options.method,
-            header: header,
+            headers: options.header,
             contentType: 'application/json',
             dataType: 'json',
             data: JSON.stringify(SDK.encrypt(JSON.stringify(options.data))),
             success: (data, status, xhr) => {
-                callback(null, SDK.decrypt(data), status, xhr);
+                data =  SDK.decrypt(data);
+                data = JSON.parse(data);
+
+                callback(null, data, status, xhr);
             },
             error: (xhr, status, errorThrown) => {
                 callback({xhr: xhr, status: status, error: errorThrown});
@@ -31,8 +26,8 @@ const SDK = {
             SDK.request({
                 method: "GET",
                 url: "api/user/myuser",
-                headers: {
-                    authorization: SDK.Storage.load('Token'),
+                header: {
+                    authorization: SDK.Storage.load('Token')
                 },
 
             }, (e, user) => {
@@ -44,6 +39,7 @@ const SDK = {
         },
         currentUser: () => {
           return SDK.Storage.load('User');
+
         },
         login: (username, password, callback) => {
             SDK.request({
@@ -63,6 +59,7 @@ const SDK = {
             });
         },
         signup: (username, password, callback) => {
+
             SDK.request({
                 data: {
                     username: username,
@@ -79,20 +76,28 @@ const SDK = {
         },
 
         logout: () => {
-            window.location.href = '/index.html'
-
             SDK.Storage.remove('User');
             SDK.Storage.remove('Token');
+            window.location.href = '/index.html'
 
         }
     },
     Course: {
-        loadAll: (callback) => {
+        loadCourses: (callback) => {
             SDK.request({
                 method: 'GET',
                 url: 'api/course',
-                callback
-            });
+                header: {
+                    authorization: SDK.Storage.load('Token')
+                }
+
+            }, (e, course) => {
+                    if (e) return callback(e);
+                    callback(null, course)
+
+                }
+            );
+           // console.log(callback);
         },
         currentCourse: (callback) => {
             return SDK.Storage.load('Course')
@@ -104,7 +109,7 @@ const SDK = {
                     method: 'GET',
                     url: 'api/quiz/' + SDK.Course.currentCourse('course_id'),
                     //url: 'api/quiz/' + SDK.Course.currentCourse().id,
-                    headers: {
+                    header: {
                         authorization: SDK.Storage.load('Token')
                     }
                 }, callback);
@@ -123,6 +128,9 @@ const SDK = {
                     courseId: courseId,
                     questions: questions,
                     createdBy: createdBy
+                },
+                header: {
+                    authorization: SDK.Storage.load('Token')
                 }
             }, (e, data) => {
                     if (e) return callback(e);

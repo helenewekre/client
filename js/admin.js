@@ -22,6 +22,7 @@ $(document).ready(() => {
                 }
             }
             */
+           SDK.encrypt(course, title, description, questions, createdby);
 
             SDK.Quiz.create(title, description, course, questions, createdby, (e, data) =>  {
                 if (e && e.xhr.status === 400) {
@@ -32,7 +33,6 @@ $(document).ready(() => {
                 } else {
                     $('#title').val();
                     $('#description').val();
-
                     $('#questionModal').show();
                         var newQuiz = JSON.parse(data);
 

@@ -25,7 +25,8 @@ $(document).ready(() => {
                         } else {
                             console.log(data)
                             //SDK.User.currentUser();
-                            var user = JSON.parse(data);
+                            SDK.decrypt(data);
+                           // var user = JSON.parse(data);
                             var currentUser = SDK.User.currentUser();
 
                             if(currentUser.type === 2) {
