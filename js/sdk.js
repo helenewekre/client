@@ -106,14 +106,20 @@ const SDK = {
     },
     Quiz: {
         loadAll: (callback) => {
+            const courseId = SDK.Storage.load('courseID');
             SDK.request({
                     method: 'GET',
-                    url: 'api/quiz/' + SDK.Course.currentCourse('course_id'),
+                    url: 'api/quiz/' + courseId,
                     //url: 'api/quiz/' + SDK.Course.currentCourse().id,
                     header: {
                         authorization: SDK.Storage.load('Token')
                     }
-                }, callback);
+                },
+                (e, quiz) => {
+                    if (e) return callback(e);
+                    callback(null, quiz)
+
+                });
         },
         currentQuiz: () => {
             return SDK.Storage.load('Quiz')

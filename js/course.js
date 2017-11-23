@@ -9,17 +9,16 @@ $(document).ready(() => {
             $courseList.append(`
             <!--<div class="col-lg-4 book-container">-->
             <tr>
-               <td><button class="btn btn-primary test-button" id=selectBtn" data-course-id=${course.courseId}>${course.courseTitle}</button></td>
+               <td><button class="btn btn-primary select-button" data-course-id=${course.courseId}>${course.courseTitle}</button></td>
             </tr>
             <!--</div>-->
             `);
         });
 
-        $('.test-button').click(function () {
-            console.log("hey");
+        $('.select-button').click(function () {
             const courseId = $(this).data('course-id');
             const course = courses.find((course) => course.courseId === courseId);
-            //const course = courses.find((course)=> course.id === courseId); BRUKES VED courses.forEach
+            SDK.Storage.persist('courseID', courseId);
             console.log(course);
             window.location.href = 'quiz.html'
         });
