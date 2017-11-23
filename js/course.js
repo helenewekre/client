@@ -1,14 +1,18 @@
 $(document).ready(()=> {
 
-        SDK.Course.loadCourses((e, course) => {
-            if (e) throw e;
+        SDK.Course.loadCourses((course) => {
+            //course = JSON.parse(course);
+            //SDK.decrypt(course);
 
             const $courseList = $("#course-list");
+            //if (e) throw e;
+
+            //SDK.encrypt(course);
+
 
             var courses = JSON.parse(course);
 
-
-                courses.forEach((course)=> {
+            courses.forEach((course)=> {
                         const courseHtml = `
             
             <div class="col-lg-4 book-container">
