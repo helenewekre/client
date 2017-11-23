@@ -91,12 +91,12 @@ const SDK = {
                     authorization: SDK.Storage.load('Token')
                 }
 
-            }, SDK.decrypt(callback)
-                /*(e, course) => {
+            }, //callback
+                (e, course) => {
                     if (e) return callback(e);
                     callback(null, course)
 
-                } */
+                }
             );
            // console.log(callback);
         },

@@ -1,50 +1,30 @@
-$(document).ready(()=> {
+$(document).ready(() => {
 
-        SDK.Course.loadCourses((course) => {
-            //course = JSON.parse(course);
-            //SDK.decrypt(course);
+    SDK.Course.loadCourses((e, courses) => {
+        if (e) throw e;
 
-            const $courseList = $("#course-list");
-            //if (e) throw e;
+        const $courseList = $("#course-list");
 
-            //SDK.encrypt(course);
+        courses.forEach((course) => {
+            $courseList.append(`
+            <!--<div class="col-lg-4 book-container">-->
+            <tr>
+               <td><button class="btn btn-primary test-button" id=selectBtn" data-course-id=${course.courseId}>${course.courseTitle}</button></td>
+            </tr>
+            <!--</div>-->
+            `);
+        });
+
+        $('.test-button').click(function () {
+            console.log("hey");
+            const courseId = $(this).data('course-id');
+            const course = courses.find((course) => course.courseId === courseId);
+            //const course = courses.find((course)=> course.id === courseId); BRUKES VED courses.forEach
+            console.log(course);
+            window.location.href = 'quiz.html'
+        });
+
+    });
 
 
-            var courses = JSON.parse(course);
-
-            courses.forEach((course)=> {
-                        const courseHtml = `
-            
-            <div class="col-lg-4 book-container">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">${course.title}</h3>
-                </div>
-            <div class="col-lg-8">
-                <dl>
-                <dt>Course:</dt>
-                <dd>${course}</dd>
-                </dl>
-            </div>
-            <div class="panel-footer">
-               <button id=selectBtn" data-course-id=${course.id}>Select course</button>
-            </div>
-            </div>
-            </div>
-            `;
-                    $courseList.append(courseHtml);
-                    }
-                );
-                $('#selectBtn').click(function () {
-                    const courseId = $ (this).data('course-id');
-                    const course = courses.find((course)=> course.id === courseId);
-                    console.log(course);
-                    window.location.href = 'quiz.html'
-                });
-
-            }
-
-        )
-
-    }
-)
+});

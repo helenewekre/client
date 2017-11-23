@@ -30,6 +30,8 @@ $(document).ready(()=> {
             $quizList.append(quizHtml);
         }
         );
+
+
         $('.takeBtn').click(function () {
             const quizId = $ (this).data('quiz-id');
             const quiz = quizes.find((quiz)=> quiz.id === quizId);
