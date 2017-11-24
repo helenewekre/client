@@ -14,8 +14,10 @@ $(document).ready(() => {
                     <div class="col-lg-8">
                       <dl>
                         <dt> </dt>
-                        <dd>${question.question}</dd>
-                        <div id="option-list"></div>
+                        <dd>${question.question}
+                        <div id="option-list${question.questionId}"></div>
+                        </dd>
+                        
                       </dl>
                     </div>
                 </div>
@@ -23,12 +25,10 @@ $(document).ready(() => {
 
             SDK.Quiz.loadOptions( (e, options)=>{
                 if (e) throw e;
-                const $optionList = $('#option-list');
+                const $optionList = $('#option-list' + question.questionId);
                 options.forEach( (option)=>{
                     $optionList.append(`
-                    <form action="">
-                        <input type="radio" name="options" value="option"> ${option.option}<br>
-                    </form>
+                        <input type="radio" name="options${question.questionId}" value="option${option.optionId}"> ${option.option}<br>
                     `);
                     }
                 )

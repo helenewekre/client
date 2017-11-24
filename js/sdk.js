@@ -110,7 +110,6 @@ const SDK = {
             SDK.request({
                     method: 'GET',
                     url: 'api/quiz/' + courseId,
-                    //url: 'api/quiz/' + SDK.Course.currentCourse().id,
                     header: {
                         authorization: SDK.Storage.load('Token')
                     }
@@ -181,9 +180,9 @@ const SDK = {
                         authorization: SDK.Storage.load('Token')
                     }
                 },
-                (e, quiz) => {
+                (e, question) => {
                     if (e) return callback(e);
-                    callback(null, quiz)
+                    callback(null, question)
                 });
         },
         loadOptions: (callback) => {
@@ -195,9 +194,9 @@ const SDK = {
                         authorization: SDK.Storage.load('Token')
                     }
                 },
-                (e, quiz) => {
+                (e, option) => {
                     if (e) return callback(e);
-                    callback(null, quiz)
+                    callback(null, option)
 
                 });
         }

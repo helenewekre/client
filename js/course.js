@@ -7,11 +7,9 @@ $(document).ready(() => {
 
         courses.forEach((course) => {
             $courseList.append(`
-            <!--<div class="col-lg-4 book-container">-->
             <tr>
                <td><button class="btn btn-primary select-button" data-course-id=${course.courseId}>${course.courseTitle}</button></td>
             </tr>
-            <!--</div>-->
             `);
         });
 
