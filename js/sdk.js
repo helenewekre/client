@@ -172,10 +172,34 @@ const SDK = {
                     callback(null, data);
                 });
         },
-        loadQuestions: () => {
-
+        loadQuestions: (callback) => {
+            const quizId = SDK.Storage.load('quizID');
+            SDK.request({
+                    method: 'GET',
+                    url: 'api/question/' + quizId,
+                    header: {
+                        authorization: SDK.Storage.load('Token')
+                    }
+                },
+                (e, quiz) => {
+                    if (e) return callback(e);
+                    callback(null, quiz)
+                });
         },
-        loadOptions: () => {
+        loadOptions: (callback) => {
+            const questionId = SDK.Storage.load('questionID');
+            SDK.request({
+                    method: 'GET',
+                    url: 'api/option/' + questionId,
+                    header: {
+                        authorization: SDK.Storage.load('Token')
+                    }
+                },
+                (e, quiz) => {
+                    if (e) return callback(e);
+                    callback(null, quiz)
+
+                });
         }
     },
     Storage: {

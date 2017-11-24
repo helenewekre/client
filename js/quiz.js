@@ -1,17 +1,12 @@
 $(document).ready(() => {
 
-        SDK.Quiz.loadAll((e, quiz) => {
+        SDK.Quiz.loadAll((e, quizes) => {
                 if (e) throw e;
-                const $quizList = $("#quiz-list");
+                const $quizList = $('#quiz-list');
 
 
-                quiz.forEach((quiz) => {
+                quizes.forEach((quiz) => {
                         $quizList.append(`
-            
-   
-                <!---<div class="panel-heading">
-                    <h3 class="panel-title">${quiz.quizTitle}</h3>
-                </div>--->
                 <div class="panel-body">
                     <div class="col-lg-8">
                       <dl>
@@ -27,7 +22,6 @@ $(document).ready(() => {
                       </dl>
                     </div>
                 </div>
-               
             `);
 
                     }
@@ -36,7 +30,7 @@ $(document).ready(() => {
 
                 $('.take-button').click(function () {
                     const quizId = $(this).data('quiz-id');
-                    const quiz = quiz.find((quiz) => quiz.quizId === quizId);
+                    const quiz = quizes.find((quiz) => quiz.quizId === quizId);
                     console.log(quiz);
                     SDK.Storage.persist('quizID', quizId);
                     window.location.href = 'question.html'

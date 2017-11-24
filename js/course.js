@@ -3,7 +3,7 @@ $(document).ready(() => {
     SDK.Course.loadCourses((e, courses) => {
         if (e) throw e;
 
-        const $courseList = $("#course-list");
+        const $courseList = $('#course-list');
 
         courses.forEach((course) => {
             $courseList.append(`
