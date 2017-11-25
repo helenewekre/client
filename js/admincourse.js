@@ -1,8 +1,8 @@
 $(document).ready(() => {
 
+
     SDK.Course.loadCourses((e, courses) => {
         if (e) throw e;
-
 
         const $courseList = $('#course-list');
 
@@ -19,10 +19,8 @@ $(document).ready(() => {
             const course = courses.find((course) => course.courseId === courseId);
             SDK.Storage.persist('courseID', courseId);
             console.log(course);
-            window.location.href = 'quiz.html'
+            window.location.href = 'createQuiz.html'
         });
 
     });
-
-
 });

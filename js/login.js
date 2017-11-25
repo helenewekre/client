@@ -32,7 +32,7 @@ $(document).ready(() => {
                             if(currentUser.type === 2) {
                                 window.location.href = "profile.html";
                             }else if (currentUser.type === 1) {
-                                window.location.href = "createQuiz.html";
+                                window.location.href = "admincourse.html";
 
                             }
 

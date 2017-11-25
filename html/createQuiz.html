@@ -11,57 +11,23 @@
 <body>
 
 <div class="centre">
-    <h1> Create a new quiz:  </h1>
-    <p> Insert data in the following boxes:  </p>
-
-<!--
-   <div class="courseDropdown">
-        <button onclick="function()" id="courseBtn"> ---Course--- </button>
-        <div id="courseSelection" class="courseDropdownSelection">
-            <a id="1">VØS 3</a>
-            <a id="2">DIS</a>
-            <a id="3">Forandringsledelse</a>
-            <a id="4">Makroøkonomi</a>
-        </div>
+    <div>
+        <h1> Create a new quiz:  </h1>
+        <p> Insert data in the following boxes:  </p>
+        <p>Title: <input type="text" placeholder="Chapter 1" id="title"></p>
+        <p> Description:  <textarea rows="3" placeholder="Multiple choice quiz from lecture 1. " id="description"></textarea> </p>
+        <button id="createBtn">Create quiz!</button>
     </div>
--->
-    <p>Course <input type="text" placeholder="" id="course"></p>
-    <p>Title: <input type="text" placeholder="Chapter 1" id="title"></p>
-    <p> Description:  <textarea rows="3" placeholder="Multiple choice quiz from lecture 1. " id="description"></textarea> </p>
-    <button id="createBtn">Create quiz!</button>
-    <div class="modal" id="questionModal">
-        <div class="modal-content">
-
-            <div class="questionsAndOptions">
-                <label>Question</label>
-                <textarea type="textarea" class="questionBox" id="question" placeholder="Question"></textarea>
-            </div>
-
-            <div class="questionsAndOptions">
-                <label>Correct option</label>
-                <input type="text" class="optionBox" id="correct" placeholder="Correct option">
-            </div>
-            <div class="questionsAndOptions">
-                <label>Wrong option 1</label>
-                <input type="text" class="optionBox" id="wrong1" placeholder="Wrong option 1">
-            </div>
-            <div class="questionsAndOptions">
-                <label>Wrong option 2</label>
-                <input type="text" class="optionBox" id="wrong2" placeholder="Wrong option 2">
-            </div>
-            <div class="questionsAndOptions">
-                <label>Wrong option 3</label>
-                <input type="text" class="optionBox" id="wrong3" placeholder="Wrong option 3">
-
-            <button type="button" id="addBtn">Add question!</button>
-
-
-        </div>
+    <div id="create-question-div" style="display:none;">
+        <p>Question <input type="text" placeholder="What is this? " id="question"></p>
+        <p>Correct option <input type="text" placeholder="A correct option " id="correct"></p>
+        <p>Wrong option 1 <input type="text" placeholder="A wrong option " id="wrong1"></p>
+        <p>Wrong option 2 <input type="text" placeholder="A confusing option " id="wrong2"></p>
+        <p>Wrong option 3 <input type="text" placeholder="A stupid option " id="wrong3"></p>
+        <button id="createOptionsBtn"> Complete new quiz </button>
+        <button id="addAnotherBtn"> Add another question </button>
     </div>
 
-
-
-</div>
 
 <footer class="footer">
     <div class="container">
@@ -75,6 +41,7 @@
     <script src="../frameworks/js/bootstrap.js"></script>
     <script src="../js/sdk.js"></script>
     <script src="../js/admin.js"></script>
+   <!-- <script src="../js/createQuestion.js"></script> -->
 
 </body>
 </html>

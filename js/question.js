@@ -1,14 +1,11 @@
 $(document).ready(() => {
 
-        SDK.Quiz.loadQuestions((e,questions) => {
+        SDK.Quiz.loadQuestions((e, questions) => {
             if (e) throw e;
+
             const $questionList = $('#question-list');
 
-
-
             questions.forEach((question)=> {
-                SDK.Storage.persist('questionID', question.questionId);
-
                 $questionList.append(`
                 <div class="panel-body">
                     <div class="col-lg-8">
@@ -23,9 +20,13 @@ $(document).ready(() => {
                 </div>
             `);
 
+                SDK.Storage.persist('questionId', question.questionId);
+
             SDK.Quiz.loadOptions((e, options)=> {
                 if (e) throw e;
+
                 const $optionList = $('#option-list' + question.questionId);
+
                 options.forEach((option)=> {
                     $optionList.append(`
                         <input type="radio" name="options${question.questionId}" value="option${option.optionId}"> ${option.option}<br>
@@ -33,14 +34,14 @@ $(document).ready(() => {
                     }
                 );
                     $('#submitBtn').click(() => {
+
                         clickHandler(question, options);
                     });
             }
-
-
             );
-            SDK.Storage.remove('questionID');
+            SDK.Storage.remove('questionId');
             });
+
 
             /*
             $('#submitBtn').click(() => {
@@ -66,11 +67,10 @@ $(document).ready(() => {
                 }
             }
         }
-        window.alert('You got ' + correct + ' correct answers, and ' + wrong + ' wrong answers!' +
-            'Question ' + correctQuestions.toString() + 'are correct. ');
+      //  window.alert('You got ' + correct + ' correct answers, and ' + wrong + ' wrong answers!' + 'Question ' + correctQuestions.toString() + 'are correct. ');
 
-        console.log(correct);
-        console.log(wrong);
+        console.log('correct', correct);
+        console.log('wrong', wrong);
 
     };
 

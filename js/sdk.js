@@ -120,6 +120,35 @@ const SDK = {
 
                 });
         },
+        loadQuestions: (callback) => {
+            const quizId = SDK.Storage.load('quizID');
+            SDK.request({
+                    method: 'GET',
+                    url: 'api/question/' + quizId,
+                    header: {
+                        authorization: SDK.Storage.load('Token')
+                    }
+                },
+                (e, question) => {
+                    if (e) return callback(e);
+                    callback(null, question)
+                });
+        },
+        loadOptions: (callback) => {
+            const questionId = SDK.Storage.load('questionId');
+            SDK.request({
+                    method: 'GET',
+                    url: 'api/option/' + questionId,
+                    header: {
+                        authorization: SDK.Storage.load('Token')
+                    }
+                },
+                (e, option) => {
+                    if (e) return callback(e);
+                    callback(null, option)
+
+                });
+        },
         currentQuiz: () => {
             return SDK.Storage.load('Quiz')
 
@@ -169,35 +198,6 @@ const SDK = {
                 }, (e, data) => {
                     if(e) return callback(e);
                     callback(null, data);
-                });
-        },
-        loadQuestions: (callback) => {
-            const quizId = SDK.Storage.load('quizID');
-            SDK.request({
-                    method: 'GET',
-                    url: 'api/question/' + quizId,
-                    header: {
-                        authorization: SDK.Storage.load('Token')
-                    }
-                },
-                (e, question) => {
-                    if (e) return callback(e);
-                    callback(null, question)
-                });
-        },
-        loadOptions: (callback) => {
-            const questionId = SDK.Storage.load('questionID');
-            SDK.request({
-                    method: 'GET',
-                    url: 'api/option/' + questionId,
-                    header: {
-                        authorization: SDK.Storage.load('Token')
-                    }
-                },
-                (e, option) => {
-                    if (e) return callback(e);
-                    callback(null, option)
-
                 });
         }
     },

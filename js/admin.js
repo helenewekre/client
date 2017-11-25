@@ -1,157 +1,171 @@
 $(document).ready(() => {
     const currentUser = SDK.User.currentUser();
 
-
     $('#createBtn').click(() => {
 
+        // const $courseHeader= $('#course-header');
+        // const course = SDK.Storage.load(Course);
+        //  $courseHeader.append(`<p> ${course.courseTitle}</p>`);
+
         const title = $('#title').val();
-        const description  = $('#description').val();
-        const course = $('#course').val();
-        const questions = $('#questions').val();
-        //cont questions = 15;
+        const description = $('#description').val();
+        const courseId = SDK.Storage.load('courseID')
+        const questions = 10; //$('#questions').val();
         const createdby = currentUser.username;
 
-
-
-        if(!course || !title || !description){
+        if (!title || !description) {
             alert('Please enter data')
         } else {
-           /* for(var c; c < courses.length; c++){
-                if (course === courses[c].courseId){
-                    course = courses[c].courseId;
-                }
-            }
-            */
-           SDK.encrypt(course, title, description, questions, createdby);
 
-            SDK.Quiz.create(title, description, course, questions, createdby, (e, data) =>  {
+            console.log(title, description, courseId, questions, createdby);
+            //SDK.encrypt(title, description, courseId, questions, createdby);
+
+
+            SDK.Quiz.create(title, description, courseId, questions, createdby, (e, data) => {
                 if (e && e.xhr.status === 400) {
                     $(".margin-bottom").addClass('Error');
                 }
                 else if (e) {
                     console.log('Error')
                 } else {
-                    $('#title').val();
-                    $('#description').val();
-                    $('#questionModal').show();
-                        var newQuiz = JSON.parse(data);
+                    //$('#title').val();
+                    //  $('#description').val();
+                    // $('#questionModal').show();
+                    //var newQuiz = JSON.parse(data);
 
-                    $('#addBtn').click(()=> {
-                        const newQuestion = $('#question').val();
-                        const quizId = newQuiz.quizId;
+                    // alert('Quiz ' + title + ' successfully created! Now add questions! ')
+                    // window.location.href = 'createQuestion.html';
 
-                        if (!newQuestion || !quizId){
-                            alert('Enter data!')
-                        } else {
-                            SDK.Quiz.createQuestion(newQuestion, quizId, (e, data)=> {
-                                    if (e && e.xhr.status === 400) {
-                                        $(".margin-bottom").addClass('Error');
-                                    }
-                                    else if (e) {
-                                        console.log('Error')
+
+                    var newQuiz = JSON.parse(data);
+
+
+                    document.getElementById('create-question-div').style.display = '';
+                    const newQuestion = $('#question').val();
+                    const questionQuizId = newQuiz.quizId;
+                    if (!newQuestion) {
+                        alert('Enter data!')
+                    } else {
+                        console.log(newQuestion);
+
+                        SDK.Quiz.createQuestion(newQuestion, questionQuizId, (e, data) => {
+                            if (e && e.xhr.status === 400) {
+                                $(".margin-bottom").addClass('Error');
+                            }
+                            else if (e) {
+                                console.log('Error')
+                            }
+
+                            var question = JSON.parse(data);
+
+                            $('#createOptionsBtn').click(() => {
+                                    const correct = $('#correct').val();
+                                    const wrong1 = $('#wrong1').val();
+                                    const wrong2 = $('#wrong2').val();
+                                    const wrong3 = $('#wrong3').val();
+                                    const optionQuestionId = question.questionId;
+
+                                    if (!correct || !optionQuestionId) {
+                                        alert('Enter correct option!')
                                     } else {
-
-                                        //const newQuestion = JSON.parse(data);
-                                        const questionId = newQuestion.questionId;
-                                        const correct = $("#correct").val();
-                                        const wrong1 = $("#wrong1").val();
-                                        const wrong2 = $("#wrong2").val();
-                                        const wrong3 = $("#wrong3").val();
-
-                                        if (!correct || !questionId) {
-                                            alert('Enter correct option!')
-                                        } else {
-                                            var status = 1;
-
-                                            SDK.Quiz.createOptions(correct, questionId, status, (e, data)=> {
-                                                    if (e && e.xhr.status === 400) {
-                                                        $(".margin-bottom").addClass('Error');
-                                                    }
-                                                    else if (e) {
-                                                        console.log('Error')
-                                                    }
-                                                    else {
-                                                        correct.val('');
-                                                    }
+                                        var status = 1;
+                                        SDK.Quiz.createOptions(correct, questionId, status, (e, data) => {
+                                                if (e && e.xhr.status === 400) {
+                                                    $(".margin-bottom").addClass('Error');
                                                 }
-                                            );
-                                        }
-
-                                        if (!wrong1 || !questionId) {
-                                            alert('Enter first wrong option!')
-                                        } else {
-                                            var status = 0;
-
-                                            SDK.Quiz.createOptions(wrong1, questionId, status, (e, data)=> {
-                                                    if (e && e.xhr.status === 400) {
-                                                        $(".margin-bottom").addClass('Error');
-                                                    }
-                                                    else if (e) {
-                                                        console.log('Error')
-                                                    }
-                                                    else {
-                                                        wrong1.val('');
-                                                    }
+                                                else if (e) {
+                                                    console.log('Error')
                                                 }
-                                            );
-                                        }
-
-                                        if (!wrong1 || !questionId) {
-                                            alert('Enter second wrong option!')
-                                        } else {
-                                            var status = 0;
-
-                                            SDK.Quiz.createOptions(wrong2, questionId, status, (e, data)=> {
-                                                    if (e && e.xhr.status === 400) {
-                                                        $(".margin-bottom").addClass('Error');
-                                                    }
-                                                    else if (e) {
-                                                        console.log('Error')
-                                                    }
-                                                    else {
-                                                        wrong2.val('');
-                                                    }
+                                                else {
+                                                    correct.val('');
                                                 }
-                                            );
-
-                                        }
-
-                                        if (!wrong1 || !questionId) {
-                                            alert('Enter third wrong option!')
-                                        } else {
-                                            var status = 0;
-
-                                            SDK.Quiz.createOptions(wrong3, questionId, status, (e, data)=> {
-                                                    if (e && e.xhr.status === 400) {
-                                                        $(".margin-bottom").addClass('Error');
-                                                    }
-                                                    else if (e) {
-                                                        console.log('Error')
-                                                    }
-                                                    else {
-                                                        wrong3.val('');
-                                                    }
-                                                }
-                                            );
-                                        }
+                                            }
+                                        );
                                     }
+
+                                    if (!wrong1 || !optionQuestionId) {
+                                        alert('Enter first wrong option!')
+                                    } else {
+                                        var status = 0;
+
+                                        SDK.Quiz.createOptions(wrong1, questionId, status, (e, data) => {
+                                                if (e && e.xhr.status === 400) {
+                                                    $(".margin-bottom").addClass('Error');
+                                                }
+                                                else if (e) {
+                                                    console.log('Error')
+                                                }
+                                                else {
+                                                    wrong1.val('');
+                                                }
+                                            }
+                                        );
+                                    }
+
+                                    if (!wrong1 || !optionQuestionId) {
+                                        alert('Enter second wrong option!')
+                                    } else {
+                                        var status = 0;
+
+                                        SDK.Quiz.createOptions(wrong2, questionId, status, (e, data) => {
+                                                if (e && e.xhr.status === 400) {
+                                                    $(".margin-bottom").addClass('Error');
+                                                }
+                                                else if (e) {
+                                                    console.log('Error')
+                                                }
+                                                else {
+                                                    wrong2.val('');
+                                                }
+                                            }
+                                        );
+
+                                    }
+
+                                    if (!wrong1 || !optionQuestionId) {
+                                        alert('Enter third wrong option!')
+                                    } else {
+                                        var status = 0;
+
+                                        SDK.Quiz.createOptions(wrong3, questionId, status, (e, data) => {
+                                                if (e && e.xhr.status === 400) {
+                                                    $(".margin-bottom").addClass('Error');
+                                                }
+                                                else if (e) {
+                                                    console.log('Error')
+                                                }
+                                                else {
+                                                    wrong3.val('');
+                                                }
+                                            }
+                                        );
+                                    }
+                                    window.alert('Completed!');
                                 }
                             );
-                        }
-                        }
-                    );
 
-                    alert('Quiz ' + title + ' successfully created!')
-                    window.location.href = 'quiz.html';
+
+                            $('#addAnotherBtn').click(() => {
+                                    window.alert('another');
+                                    //HVORDAN SKAL MAN FÅ KJØRT METODEN IGJEN? OG HVORDAN ENDRE QUESTION ID?
+
+                                }
+                            );
+                        });
+
+
+                    }
                 }
             });
         }
     });
-
-
-
-
-
-
-
 });
+            /*
+                    //window.location.href = 'quiz.html';
+                }
+            });
+            */
+
+
+
+
