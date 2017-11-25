@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    const currentUser = SDK.User.currentUser();
 
         SDK.Quiz.loadAll((e, quizes) => {
                 if (e) throw e;
@@ -45,7 +46,25 @@ $(document).ready(() => {
 
 
             }
-        )
+        );
+    $('#logoutBtn').click(() => {
+        SDK.User.logout(currentUser.userId, (e, data)=> {
+            if (e && e.xhr.status === 400) {
+                $('.margin-bottom').addClass('Error');
+            }
+            //Usikker på denne else-if, bør ikke være nødvendig, var kun for feilmld
+            /*else if (e){
+               window.location.href = 'index.html';
+               SDK.Storage.clear();
+           } */else {
+                window.location.href = 'index.html';
+                //SDK.Storage.clear();
+                SDK.Storage.remove('Token')
+                SDK.Storage.remove('User')
+
+            }
+        });
+    });
 
     }
 )

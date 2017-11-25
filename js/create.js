@@ -14,7 +14,7 @@ $(document).ready(() => {
 
                 SDK.User.signup(username, password, (e, data) =>  {
                     if (e && e.xhr.status === 400) {
-                        $(".margin-bottom").addClass('Error');
+                        $('.margin-bottom').addClass('Error');
                     }
                     else if (e) {
                         console.log('Error')
