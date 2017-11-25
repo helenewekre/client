@@ -9,39 +9,40 @@
 
 </head>
 <body>
+<div id="page-header">
+    <button id="logoutBtn">Log out</button>
+</div>
+    <div class="centre">
+        <div>
+            <h1> Create a new quiz:  </h1>
+            <p> Insert data in the following boxes:  </p>
+            <p>Title: <input type="text" placeholder="Chapter 1" id="title"></p>
+            <p> Description:  <textarea rows="3" placeholder="Multiple choice quiz from lecture 1. " id="description"></textarea> </p>
+            <button id="createBtn">Create quiz!</button>
+        </div>
+        <div id="create-question-div" style="display:none;">
+            <p>Question <input type="text" placeholder="What is this? " id="question"></p>
+            <p>Correct option <input type="text" placeholder="A correct option " id="correct"></p>
+            <p>Wrong option 1 <input type="text" placeholder="A wrong option " id="wrong1"></p>
+            <p>Wrong option 2 <input type="text" placeholder="A confusing option " id="wrong2"></p>
+            <p>Wrong option 3 <input type="text" placeholder="A stupid option " id="wrong3"></p>
+            <button id="createOptionsBtn"> Complete new quiz </button>
+            <button id="addAnotherBtn"> Add another question </button>
+        </div>
 
-<div class="centre">
-    <div>
-        <h1> Create a new quiz:  </h1>
-        <p> Insert data in the following boxes:  </p>
-        <p>Title: <input type="text" placeholder="Chapter 1" id="title"></p>
-        <p> Description:  <textarea rows="3" placeholder="Multiple choice quiz from lecture 1. " id="description"></textarea> </p>
-        <button id="createBtn">Create quiz!</button>
     </div>
-    <div id="create-question-div" style="display:none;">
-        <p>Question <input type="text" placeholder="What is this? " id="question"></p>
-        <p>Correct option <input type="text" placeholder="A correct option " id="correct"></p>
-        <p>Wrong option 1 <input type="text" placeholder="A wrong option " id="wrong1"></p>
-        <p>Wrong option 2 <input type="text" placeholder="A confusing option " id="wrong2"></p>
-        <p>Wrong option 3 <input type="text" placeholder="A stupid option " id="wrong3"></p>
-        <button id="createOptionsBtn"> Complete new quiz </button>
-        <button id="addAnotherBtn"> Add another question </button>
-    </div>
-
-
-<footer class="footer">
-    <div class="container">
-        <p> Copyright Helene </p>
-    </div>
-</footer>
+        <footer class="footer">
+            <div class="container">
+                <p> Copyright Helene </p>
+            </div>
+        </footer>
 
 
 
-    <script src="../frameworks/js/jquery-3.2.1.js"></script>
-    <script src="../frameworks/js/bootstrap.js"></script>
-    <script src="../js/sdk.js"></script>
-    <script src="../js/admin.js"></script>
-   <!-- <script src="../js/createQuestion.js"></script> -->
+        <script src="../frameworks/js/jquery-3.2.1.js"></script>
+        <script src="../frameworks/js/bootstrap.js"></script>
+        <script src="../js/sdk.js"></script>
+        <script src="../js/admin.js"></script>
 
 </body>
 </html>

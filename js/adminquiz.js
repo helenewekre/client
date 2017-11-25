@@ -65,6 +65,9 @@ $(document).ready(() => {
             }
         });
     });
+    $('#createBtn').click(()=>{
+        window.location.href = 'createQuiz.html';
+    });
 
     }
 )
