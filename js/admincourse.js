@@ -19,7 +19,8 @@ $(document).ready(() => {
             const course = courses.find((course) => course.courseId === courseId);
             SDK.Storage.persist('courseID', courseId);
             console.log(course);
-            window.location.href = 'createQuiz.html'
+            window.location.href = 'adminquiz.html'
+            //window.location.href = 'createQuiz.html'
         });
 
     });

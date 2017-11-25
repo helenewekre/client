@@ -199,6 +199,23 @@ const SDK = {
                     if(e) return callback(e);
                     callback(null, data);
                 });
+        },
+        deleteQuiz: (callback) => {
+            const quizIdToDelete = SDK.Storage.load('quizID');
+          //  const quizToDelete = SDK.Storage.load('quizToDelete');
+          //  const quizIdToDelete = quizToDelete.quizId;
+            console.log(quizIdToDelete);
+            SDK.request({
+                method:'DELETE',
+                url: 'api/quiz/' + quizIdToDelete,
+                headers: {
+                    authorization: SDK.Storage.load("Token")
+                },
+            }, (e, data) => {
+                if (e) return callback(e);
+                callback(null, data)
+            });
+
         }
     },
     Storage: {
