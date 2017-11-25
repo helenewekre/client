@@ -75,10 +75,15 @@ const SDK = {
 
         },
 
-        logout: () => {
-            SDK.Storage.remove('User');
-            SDK.Storage.remove('Token');
-            window.location.href = '/index.html'
+        logout: (userId, callback) => {
+            SDK.request({
+                method: 'POST',
+                url: 'api/user/logout',
+                data: userId,
+            }, (e, data) => {
+                if (e) return callback(e);
+                callback(null, data);
+            });
 
         }
     },
