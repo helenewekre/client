@@ -6,155 +6,151 @@ $(document).ready(() => {
         // const $courseHeader= $('#course-header');
         // const course = SDK.Storage.load(Course);
         //  $courseHeader.append(`<p> ${course.courseTitle}</p>`);
-
-        const title = $('#title').val();
-        const description = $('#description').val();
+        const Test = SDK.Storage.load('Token');
+        console.log(Test);
+        const quizTitle = $('#title').val();
+        const quizDescription = $('#description').val();
         const courseId = SDK.Storage.load('courseID')
-        const questions = 10; //$('#questions').val();
-        const createdby = currentUser.username;
+        const questionCount = 10; //$('#questions').val();
+        const createdBy = currentUser.username;
 
-        if (!title || !description) {
+        if (!quizTitle || !quizDescription) {
             alert('Please enter data')
         } else {
 
-            console.log(title, description, courseId, questions, createdby);
+            //console.log(quizTitle, quizDescription, courseId, questions, createdBy);
             //SDK.encrypt(title, description, courseId, questions, createdby);
 
 
-            SDK.Quiz.create(title, description, courseId, questions, createdby, (e, data) => {
+            SDK.Quiz.create(createdBy,questionCount, quizTitle, quizDescription, courseId,(e, newQuiz) => {
                 if (e && e.xhr.status === 400) {
                     $(".margin-bottom").addClass('Error');
                 }
                 else if (e) {
                     console.log('Error')
                 } else {
-                    //$('#title').val();
-                    //  $('#description').val();
-                    // $('#questionModal').show();
-                    //var newQuiz = JSON.parse(data);
-
-                    // alert('Quiz ' + title + ' successfully created! Now add questions! ')
-                    // window.location.href = 'createQuestion.html';
-
-
-                    var newQuiz = JSON.parse(data);
+                    console.log(newQuiz);
+                   // var newQuiz = JSON.parse(newQuiz);
 
 
                     document.getElementById('create-question-div').style.display = '';
-                    const newQuestion = $('#question').val();
-                    const questionQuizId = newQuiz.quizId;
-                    if (!newQuestion) {
-                        alert('Enter data!')
-                    } else {
-                        console.log(newQuestion);
 
-                        SDK.Quiz.createQuestion(newQuestion, questionQuizId, (e, data) => {
-                            if (e && e.xhr.status === 400) {
-                                $(".margin-bottom").addClass('Error');
+                    $('#addQuestionBtn').click(()=>{
+                            const question = $('#question').val();
+                            const questionToQuizId = newQuiz.quizId;
+
+                            if (!question) {
+                                alert('Enter data!')
+                            } else {
+                                console.log(question);
+
+                                SDK.Quiz.createQuestion(question, questionToQuizId, (e, newQuestion) => {
+                                    if (e && e.xhr.status === 400) {
+                                        $(".margin-bottom").addClass('Error');
+                                    }
+                                    else if (e) {
+                                        console.log('Error')
+                                    } else {
+                                        //var question = JSON.parse(data);
+                                        console.log(newQuestion);
+
+                                        document.getElementById('create-options-div').style.display = '';
+                                        document.getElementById('another-or-done-div').style.display = 'none';
+                                        $('#createOptionsBtn').click(() => {
+                                                const correct = $('#correct').val();
+                                                const wrong1 = $('#wrong1').val();
+                                                const wrong2 = $('#wrong2').val();
+                                                const wrong3 = $('#wrong3').val();
+                                                const optionQuestionId = question.questionId;
+                                                console.log(optionQuestionId);
+
+                                                    var isCorrect = 1;
+                                                    SDK.Quiz.createOptions(correct, optionQuestionId, isCorrect, (e, data) => {
+                                                            if (e && e.xhr.status === 400) {
+                                                                $(".margin-bottom").addClass('Error');
+                                                            }
+                                                            else if (e) {
+                                                                console.log('Error')
+                                                            }
+                                                            else {
+                                                                correct.val('');
+                                                                    var isCorrect = 0;
+
+                                                                    SDK.Quiz.createOptions(wrong1, optionQuestionId, isCorrect, (e, data) => {
+                                                                            if (e && e.xhr.status === 400) {
+                                                                                $(".margin-bottom").addClass('Error');
+                                                                            }
+                                                                            else if (e) {
+                                                                                console.log('Error')
+                                                                            }
+                                                                            else {
+                                                                                wrong1.val('');
+
+                                                                                    var isCorrect = 0;
+
+                                                                                    SDK.Quiz.createOptions(wrong2, optionQuestionId, isCorrect, (e, data) => {
+                                                                                            if (e && e.xhr.status === 400) {
+                                                                                                $(".margin-bottom").addClass('Error');
+                                                                                            }
+                                                                                            else if (e) {
+                                                                                                console.log('Error')
+                                                                                            }
+                                                                                            else {
+                                                                                                wrong2.val('');
+
+                                                                                                    var isCorrect = 0;
+
+                                                                                                    SDK.Quiz.createOptions(wrong3, optionQuestionId, isCorrect, (e, data) => {
+                                                                                                            if (e && e.xhr.status === 400) {
+                                                                                                                $(".margin-bottom").addClass('Error');
+                                                                                                            }
+                                                                                                            else if (e) {
+                                                                                                                console.log('Error')
+                                                                                                            }
+                                                                                                            else {
+                                                                                                                wrong3.val('');
+                                                                                                            }
+                                                                                                        }
+                                                                                                    );
+                                                                                            }
+                                                                                        }
+                                                                                    );
+                                                                            }
+                                                                        }
+                                                                    );
+                                                            }
+                                                        }
+                                                    );
+
+                                                window.alert('Completed!');
+                                            document.getElementById('another-or-done-div').style.display = '';
+                                            }
+                                        );
+
+                                        $('#addAnotherBtn').click(() => {
+                                            $('#question').val('')
+                                            $('#correct').val('')
+                                            $('#wrong1').val('')
+                                            $('#wrong2').val('')
+                                            $('#wrong3').val('')
+                                            document.getElementById('create-options-div').style.display = 'none';
+                                            document.getElementById('create-question-div').style.display = '';
+
+
+                                                //HVORDAN SKAL MAN FÅ KJØRT METODEN IGJEN? OG HVORDAN ENDRE QUESTION ID?
+
+                                            }
+                                        );
+                                        $('#doneBtn').click( ()=> {
+                                                SDK.Storage.persist('courseID', courseId)
+                                                window.location.href = 'adminquiz.html'
+                                        }
+                                        );
+                                    }
+                                    });
                             }
-                            else if (e) {
-                                console.log('Error')
-                            }
-
-                            var question = JSON.parse(data);
-
-                            $('#createOptionsBtn').click(() => {
-                                    const correct = $('#correct').val();
-                                    const wrong1 = $('#wrong1').val();
-                                    const wrong2 = $('#wrong2').val();
-                                    const wrong3 = $('#wrong3').val();
-                                    const optionQuestionId = question.questionId;
-
-                                    if (!correct || !optionQuestionId) {
-                                        alert('Enter correct option!')
-                                    } else {
-                                        var status = 1;
-                                        SDK.Quiz.createOptions(correct, questionId, status, (e, data) => {
-                                                if (e && e.xhr.status === 400) {
-                                                    $(".margin-bottom").addClass('Error');
-                                                }
-                                                else if (e) {
-                                                    console.log('Error')
-                                                }
-                                                else {
-                                                    correct.val('');
-                                                }
-                                            }
-                                        );
-                                    }
-
-                                    if (!wrong1 || !optionQuestionId) {
-                                        alert('Enter first wrong option!')
-                                    } else {
-                                        var status = 0;
-
-                                        SDK.Quiz.createOptions(wrong1, questionId, status, (e, data) => {
-                                                if (e && e.xhr.status === 400) {
-                                                    $(".margin-bottom").addClass('Error');
-                                                }
-                                                else if (e) {
-                                                    console.log('Error')
-                                                }
-                                                else {
-                                                    wrong1.val('');
-                                                }
-                                            }
-                                        );
-                                    }
-
-                                    if (!wrong1 || !optionQuestionId) {
-                                        alert('Enter second wrong option!')
-                                    } else {
-                                        var status = 0;
-
-                                        SDK.Quiz.createOptions(wrong2, questionId, status, (e, data) => {
-                                                if (e && e.xhr.status === 400) {
-                                                    $(".margin-bottom").addClass('Error');
-                                                }
-                                                else if (e) {
-                                                    console.log('Error')
-                                                }
-                                                else {
-                                                    wrong2.val('');
-                                                }
-                                            }
-                                        );
-
-                                    }
-
-                                    if (!wrong1 || !optionQuestionId) {
-                                        alert('Enter third wrong option!')
-                                    } else {
-                                        var status = 0;
-
-                                        SDK.Quiz.createOptions(wrong3, questionId, status, (e, data) => {
-                                                if (e && e.xhr.status === 400) {
-                                                    $(".margin-bottom").addClass('Error');
-                                                }
-                                                else if (e) {
-                                                    console.log('Error')
-                                                }
-                                                else {
-                                                    wrong3.val('');
-                                                }
-                                            }
-                                        );
-                                    }
-                                    window.alert('Completed!');
-                                }
-                            );
-
-
-                            $('#addAnotherBtn').click(() => {
-                                    window.alert('another');
-                                    //HVORDAN SKAL MAN FÅ KJØRT METODEN IGJEN? OG HVORDAN ENDRE QUESTION ID?
-
-                                }
-                            );
-                        });
-
-
                     }
+                    );
                 }
             });
         }

@@ -158,16 +158,16 @@ const SDK = {
             return SDK.Storage.load('Quiz')
 
         },
-        create: (title, description, courseId, questions, createdBy, callback) => {
+        create: (createdBy, questionCount, quizTitle, quizDescription, courseId, callback) => {
             SDK.request({
                 method: 'POST',
                 url: 'api/quiz',
                 data: {
-                    title: title,
-                    description: description,
+                    createdBy: createdBy,
+                    questionCount: questionCount,
+                    quizTitle: quizTitle,
+                    quizDescription: quizDescription,
                     courseId: courseId,
-                    questions: questions,
-                    createdBy: createdBy
                 },
                 header: {
                     authorization: SDK.Storage.load('Token')
@@ -178,27 +178,33 @@ const SDK = {
                     callback(null, data);
             });
         },
-        createQuestion: (question, quizId, callback) => {
+        createQuestion: (question, questionToQuizId, callback) => {
             SDK.request({
                 method: 'POST',
-                url: 'api/question/' + quizId,
+                url: 'api/question',
                 data: {
                     question: question,
-                    quizId: quizId
+                    questionToQuizId: questionToQuizId
+                },
+                header: {
+                    authorization: SDK.Storage.load('Token')
                 }
                 }, (e, data) => {
                     if(e) return callback(e);
                     callback(null, data);
                 });
         },
-        createOptions: (option, questionId, status, callback) => {
+        createOptions: (option, questionId, isCorrect, callback) => {
             SDK.request({
                 method:'POST',
-                url: 'api/option/' + questionId,
+                url: 'api/option',
                 data: {
                     option: option,
                     questionId: questionId,
-                    status: status
+                    isCorrect: isCorrect
+                },
+                header: {
+                    authorization: SDK.Storage.load('Token')
                 }
                 }, (e, data) => {
                     if(e) return callback(e);
@@ -206,14 +212,16 @@ const SDK = {
                 });
         },
         deleteQuiz: (callback) => {
-            const quizIdToDelete = SDK.Storage.load('quizID');
-          //  const quizToDelete = SDK.Storage.load('quizToDelete');
+            //const quizIdToDelete = SDK.Storage.load('quizID');
+            const quizToDelete = SDK.Storage.load('quizToDelete');
+            const quizId = quizToDelete.quizId;
           //  const quizIdToDelete = quizToDelete.quizId;
-            console.log(quizIdToDelete);
+            console.log(quizId);
+
             SDK.request({
                 method:'DELETE',
-                url: 'api/quiz/' + quizIdToDelete,
-                headers: {
+                url: 'api/quiz/' + quizId,
+                header: {
                     authorization: SDK.Storage.load("Token")
                 },
             }, (e, data) => {

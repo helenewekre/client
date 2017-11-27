@@ -22,12 +22,19 @@
         </div>
         <div id="create-question-div" style="display:none;">
             <p>Question <input type="text" placeholder="What is this? " id="question"></p>
-            <p>Correct option <input type="text" placeholder="A correct option " id="correct"></p>
-            <p>Wrong option 1 <input type="text" placeholder="A wrong option " id="wrong1"></p>
-            <p>Wrong option 2 <input type="text" placeholder="A confusing option " id="wrong2"></p>
-            <p>Wrong option 3 <input type="text" placeholder="A stupid option " id="wrong3"></p>
-            <button id="createOptionsBtn"> Complete new quiz </button>
-            <button id="addAnotherBtn"> Add another question </button>
+            <button id="addQuestionBtn"> Add question </button>
+
+            <div id="create-options-div" style="display:none;">
+                <p>Correct option <input type="text" placeholder="A correct option " id="correct"></p>
+                <p>Wrong option 1 <input type="text" placeholder="A wrong option " id="wrong1"></p>
+                <p>Wrong option 2 <input type="text" placeholder="A confusing option " id="wrong2"></p>
+                <p>Wrong option 3 <input type="text" placeholder="A stupid option " id="wrong3"></p>
+                <button id="createOptionsBtn"> Complete question</button>
+                <div id="another-or-done-div" style="display:none;">
+                    <button id="addAnotherBtn"> Add another question </button>
+                    <button id="doneBtn"> Complete new quiz </button>
+                </div>
+            </div>
         </div>
 
     </div>

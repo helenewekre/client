@@ -57,19 +57,19 @@ $(document).ready(() => {
         var correctQuestions = [];
         var wrong = 0;
 
+
         for (var i = 0; i < options.length; i++) {
-            wrong ++;
             if (options[i].checked==true) {
                 if (options[i].isCorrect === 1) {
                     correct ++;
                     correctQuestions.push(question.questionId);
                 } else if (options[i].isCorrect === 0) {
-                    wrong --;
+                    wrong ++;
                 }
             }
         }
       //  window.alert('You got ' + correct + ' correct answers, and ' + wrong + ' wrong answers!' + 'Question ' + correctQuestions.toString() + 'are correct. ');
-
+        console.log('verdi', options[i].isCorrect);
         console.log('correct', correct);
         console.log('wrong', wrong);
 
