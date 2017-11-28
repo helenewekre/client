@@ -22,7 +22,7 @@ $(document).ready(() => {
             //SDK.encrypt(title, description, courseId, questions, createdby);
 
 
-            SDK.Quiz.create(createdBy,questionCount, quizTitle, quizDescription, courseId,(e, newQuiz) => {
+            SDK.Quiz.create(createdBy, questionCount, quizTitle, quizDescription, courseId, (e, newQuiz) => {
                 if (e && e.xhr.status === 400) {
                     $(".margin-bottom").addClass('Error');
                 }
@@ -30,12 +30,12 @@ $(document).ready(() => {
                     console.log('Error')
                 } else {
                     console.log(newQuiz);
-                   // var newQuiz = JSON.parse(newQuiz);
+                    // var newQuiz = JSON.parse(newQuiz);
 
 
                     document.getElementById('create-question-div').style.display = '';
 
-                    $('#addQuestionBtn').click(()=>{
+                    $('#addQuestionBtn').click(() => {
                             const question = $('#question').val();
                             const questionToQuizId = newQuiz.quizId;
 
@@ -61,34 +61,46 @@ $(document).ready(() => {
                                                 const wrong1 = $('#wrong1').val();
                                                 const wrong2 = $('#wrong2').val();
                                                 const wrong3 = $('#wrong3').val();
-                                                const optionQuestionId = question.questionId;
+                                                const optionQuestionId = newQuestion.questionId;
                                                 console.log(optionQuestionId);
 
-                                                    var isCorrect = 1;
-                                                    SDK.Quiz.createOptions(correct, optionQuestionId, isCorrect, (e, data) => {
-                                                            if (e && e.xhr.status === 400) {
-                                                                $(".margin-bottom").addClass('Error');
-                                                            }
-                                                            else if (e) {
-                                                                console.log('Error')
-                                                            }
-                                                            else {
-                                                                correct.val('');
-                                                                    var isCorrect = 0;
+                                                var isCorrect = 1;
+                                                SDK.Quiz.createOptions(correct, optionQuestionId, isCorrect, (e, data) => {
+                                                        if (e && e.xhr.status === 400) {
+                                                            $(".margin-bottom").addClass('Error');
+                                                        }
+                                                        else if (e) {
+                                                            console.log('Error')
+                                                        }
+                                                        else {
+                                                            //correct.val("");
+                                                            var isCorrect = 0;
 
-                                                                    SDK.Quiz.createOptions(wrong1, optionQuestionId, isCorrect, (e, data) => {
-                                                                            if (e && e.xhr.status === 400) {
-                                                                                $(".margin-bottom").addClass('Error');
-                                                                            }
-                                                                            else if (e) {
-                                                                                console.log('Error')
-                                                                            }
-                                                                            else {
-                                                                                wrong1.val('');
+                                                            SDK.Quiz.createOptions(wrong1, optionQuestionId, isCorrect, (e, data) => {
+                                                                    if (e && e.xhr.status === 400) {
+                                                                        $(".margin-bottom").addClass('Error');
+                                                                    }
+                                                                    else if (e) {
+                                                                        console.log('Error')
+                                                                    }
+                                                                    else {
+                                                                        //wrong1.val('');
+
+                                                                        var isCorrect = 0;
+
+                                                                        SDK.Quiz.createOptions(wrong2, optionQuestionId, isCorrect, (e, data) => {
+                                                                                if (e && e.xhr.status === 400) {
+                                                                                    $(".margin-bottom").addClass('Error');
+                                                                                }
+                                                                                else if (e) {
+                                                                                    console.log('Error')
+                                                                                }
+                                                                                else {
+                                                                                   // wrong2.val('');
 
                                                                                     var isCorrect = 0;
 
-                                                                                    SDK.Quiz.createOptions(wrong2, optionQuestionId, isCorrect, (e, data) => {
+                                                                                    SDK.Quiz.createOptions(wrong3, optionQuestionId, isCorrect, (e, data) => {
                                                                                             if (e && e.xhr.status === 400) {
                                                                                                 $(".margin-bottom").addClass('Error');
                                                                                             }
@@ -96,67 +108,54 @@ $(document).ready(() => {
                                                                                                 console.log('Error')
                                                                                             }
                                                                                             else {
-                                                                                                wrong2.val('');
-
-                                                                                                    var isCorrect = 0;
-
-                                                                                                    SDK.Quiz.createOptions(wrong3, optionQuestionId, isCorrect, (e, data) => {
-                                                                                                            if (e && e.xhr.status === 400) {
-                                                                                                                $(".margin-bottom").addClass('Error');
-                                                                                                            }
-                                                                                                            else if (e) {
-                                                                                                                console.log('Error')
-                                                                                                            }
-                                                                                                            else {
-                                                                                                                wrong3.val('');
-                                                                                                            }
-                                                                                                        }
-                                                                                                    );
+                                                                                               // wrong3.val('');
                                                                                             }
                                                                                         }
                                                                                     );
+                                                                                }
                                                                             }
-                                                                        }
-                                                                    );
-                                                            }
+                                                                        );
+                                                                    }
+                                                                }
+                                                            );
                                                         }
-                                                    );
+                                                }
+                                                );
 
-                                                window.alert('Completed!');
                                             document.getElementById('another-or-done-div').style.display = '';
                                             }
                                         );
 
                                         $('#addAnotherBtn').click(() => {
-                                            $('#question').val('')
-                                            $('#correct').val('')
-                                            $('#wrong1').val('')
-                                            $('#wrong2').val('')
-                                            $('#wrong3').val('')
-                                            document.getElementById('create-options-div').style.display = 'none';
-                                            document.getElementById('create-question-div').style.display = '';
+                                                $('#question').val('')
+                                                $('#correct').val('')
+                                                $('#wrong1').val('')
+                                                $('#wrong2').val('')
+                                                $('#wrong3').val('')
+                                                document.getElementById('create-options-div').style.display = 'none';
+                                                document.getElementById('create-question-div').style.display = '';
 
 
                                                 //HVORDAN SKAL MAN FÅ KJØRT METODEN IGJEN? OG HVORDAN ENDRE QUESTION ID?
 
                                             }
                                         );
-                                        $('#doneBtn').click( ()=> {
+                                        $('#doneBtn').click(() => {
                                                 SDK.Storage.persist('courseID', courseId)
                                                 window.location.href = 'adminquiz.html'
-                                        }
+                                            }
                                         );
                                     }
-                                    });
+                                });
                             }
-                    }
+                        }
                     );
                 }
             });
         }
     });
     $('#logoutBtn').click(() => {
-        SDK.User.logout(currentUser.userId, (e, data)=> {
+        SDK.User.logout(currentUser.userId, (e, data) => {
             if (e && e.xhr.status === 400) {
                 $('.margin-bottom').addClass('Error');
             }
@@ -164,7 +163,7 @@ $(document).ready(() => {
             /*else if (e){
                window.location.href = 'index.html';
                SDK.Storage.clear();
-           } */else {
+           } */ else {
                 window.location.href = 'index.html';
                 //SDK.Storage.clear();
                 SDK.Storage.remove('Token')
@@ -174,11 +173,11 @@ $(document).ready(() => {
         });
     });
 });
-            /*
-                    //window.location.href = 'quiz.html';
-                }
-            });
-            */
+/*
+        //window.location.href = 'quiz.html';
+    }
+});
+*/
 
 
 

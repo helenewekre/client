@@ -195,12 +195,15 @@ const SDK = {
                 });
         },
         createOptions: (option, questionId, isCorrect, callback) => {
+            console.log(option);
+            console.log(questionId);
+            console.log(isCorrect);
             SDK.request({
                 method:'POST',
                 url: 'api/option',
                 data: {
                     option: option,
-                    questionId: questionId,
+                    optionToQuestionId: questionId,
                     isCorrect: isCorrect
                 },
                 header: {
