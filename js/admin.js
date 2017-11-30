@@ -121,8 +121,8 @@ $(document).ready(() => {
                                                         }
                                                 }
                                                 );
-
                                             document.getElementById('another-or-done-div').style.display = '';
+                                            window.alert('Question added!')
                                             }
                                         );
 
@@ -141,6 +141,7 @@ $(document).ready(() => {
                                             }
                                         );
                                         $('#doneBtn').click(() => {
+                                            window.alert('Quiz completed!')
                                                 SDK.Storage.persist('courseID', courseId)
                                                 window.location.href = 'adminquiz.html'
                                             }

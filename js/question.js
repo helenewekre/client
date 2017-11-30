@@ -1,14 +1,11 @@
 $(document).ready(() => {
     const currentUser = SDK.User.currentUser();
-    let loadedQuestions;
-    let loadedOptions;
+    //let loadedQuestions;
+    //let loadedOptions;
     document.getElementById('result-table').style.display = 'none';
 
     SDK.Quiz.loadQuestions((e, questions) => {
         if (e) throw e;
-
-        loadedQuestions = questions;
-
         const $questionList = $('#question-list');
 
         questions.forEach((question) => {
@@ -30,7 +27,7 @@ $(document).ready(() => {
 
             SDK.Quiz.loadOptions((e, options) => {
                 if (e) throw e;
-                loadedOptions = options;
+                //loadedOptions = options;
 
                 const $optionList = $('#option-list' + question.questionId);
 
@@ -45,19 +42,26 @@ $(document).ready(() => {
             });
             SDK.Storage.remove('questionId');
         });
-
-
-        /*
-        $('#submitBtn').click(() => {
-           console.log("");
-        });
-        */
         $('#submitBtn').click(() => {
             const $questionTbody = $('#question-tbody');
+            let total = 0;
+            let answered = 0;
+            let correct = 0;
+
+            $('.correct-or-wrong-radio').each(function(){
+                if ($(this).is(":checked")){
+                    answered++;
+                    if ($(this).val() == 1) {
+                        correct++;
+                    }
+                }
+            });
+
 
             document.getElementById('result-table').style.display = '';
             questions.forEach((question)=> {
                 SDK.Storage.persist('questionId', question.questionId);
+                    total ++;
 
                     $questionTbody.append(`
                     <tr id="correct${question.questionId}">
@@ -68,13 +72,13 @@ $(document).ready(() => {
                     SDK.Quiz.loadOptions((e, loadedOptions)=>{
                         for (let i = 0; i < loadedOptions.length; i++){
                             if (loadedOptions[i].isCorrect == 1){
+                                correct++;
                                 $(`#correct${question.questionId}`).append(`<td>${loadedOptions[i].option}</td>`);
                             }
                         }
                     });
-
-
              });
+            window.alert('You answered ' + answered + ' out of ' + total + ' questions correct. \n\nCorrect answers: ' + correct + '!');
         });
 
     $('#logoutBtn').click(() => {
